@@ -93,48 +93,37 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                 console.log('data returned back to angular: ', res);
                 switch(res.type) {
                     case 'audio':                        
-                        var obj = res;
-                        obj.url = myCtrl.icons.audioUrl;                        
-                        myCtrl.media.audio.push(obj);
+                        //var obj = res;
+                        res.url = myCtrl.icons.audioUrl;
+                        myCtrl.media.audio.push(res);
                         console.log('the array is now: ', MyPiFactory.media.audio);
                         break;
                     case 'video':
                         console.log('video type');
-                        var obj = res;
-                        obj.url = myCtrl.icons.videoUrl;
-                        for(var prop in obj) {
-                            console.log(prop);
-                            console.log(obj[prop]);
-                        }
-                        myCtrl.media.video.push(obj);
+                        //var obj = res;
+                        res.url = myCtrl.icons.videoUrl;
+                        myCtrl.media.video.push(res);
                         console.log('the array is now: ', myCtrl.media.video);
                         break;
                     case 'image':
                         console.log('image type');
-                        var obj = res;
-                        obj.url = myCtrl.icons.imageUrl;
-                        for(var prop in obj) {
-                            console.log(prop);
-                            console.log(obj[prop]);
-                        }
-                        myCtrl.media.image.push(obj);
+                        //var obj = res;
+                        res.url = myCtrl.icons.imageUrl;
+                        myCtrl.media.image.push(res);
                         console.log('the array is now: ', myCtrl.media.image);
                         break;
                     case 'document':
                         console.log('document type');
-                        var obj = res;
-                        obj.url = myCtrl.icons.documentUrl;
-                        for(var prop in obj) {
-                            console.log(prop);
-                            console.log(obj[prop]);
-                        }
-                        myCtrl.media.document.push(obj);
+                        //var obj = res;
+                        res.url = myCtrl.icons.documentUrl;
+                        myCtrl.media.document.push(res);
                         console.log('the array is now: ', myCtrl.media.document);
                         break;
                     default:
                         console.log('unkown type returned');
                         break;
                 }
+                $location.path('/audio');
             })
                 .error(function(err) {
                     console.error('Error with request');
@@ -168,11 +157,4 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         console.log('location switch call: ', url);
         $location.path(url);
     };
-
-    myCtrl.log = function(btn) {
-        console.log(btn);
-    };
-
-
-
 }

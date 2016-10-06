@@ -4,17 +4,19 @@
 var mongoose = require('mongoose'),
     path = require('path'),
     Grid = require('gridfs-stream'),
-    fs = require('fs');
+    fs = require('fs'),
+    User = require('../../models/user');
 
 module.exports = function(file, userId, fileType, res) {
-    console.log('called the write file for gridfs');
-    console.log('file is: ', file);
-    var conn = mongoose.createConnection('mongodb://localhost/'.concat(userId), (error) => {
+    var fileId;
+    //console.log('called the write file for gridfs'.green);
+    //console.log('file is: ', file);
+    var conn = mongoose.createConnection('mongodb://localhost/media', (error) => {
         if(error) {
-            console.error('Error connecting to mongod instance'.red);
+            console.error('Error connecting to mongod media instance'.red);
             process.exit(1);
         } else {
-            console.info('Connected successfully to mongod instance in the write file!'.blue);
+            console.info('Connected successfully to mongod media instance in the write file!'.blue);
         }
     });
     // The following line is designating a file to grab/read, and save into mongo
@@ -39,7 +41,7 @@ module.exports = function(file, userId, fileType, res) {
         //  write stream to write to the DB via piping the writestream
         var readStream = fs.createReadStream(myFile)
             .on('end', () => {
-                console.log('read stream: ', readStream);
+                writeToUserDb(userId, fileType, readStream.id);
                 res.status(200).send({id: readStream.id, type: fileType, user: userId});
             })
             .on('error', () => {
@@ -51,11 +53,38 @@ module.exports = function(file, userId, fileType, res) {
 
         writeStream.on('close', function (file) {
             console.log(file.filename + 'written to DB');
-            setTimeout(() => {
+            /**
+            setTimeout(1000, () => {
                 fs.unlink(myFile);
             });
+             */
+            fs.unlink(myFile);
+            myFile = null;
             conn.close();
         });
     });
 
+    function writeToUserDb(uid, type, fileId) {
+        var userConn = mongoose.createConnection('mongodb://localhost/mean-auth', (error) => {
+            if(error) {
+                console.error('Error connecting to the mean-auth instance'.red);
+                process.exit(1);
+            } else {
+                console.info('Connected to the mean-auth instance!'.blue);
+                console.info('Attempting to find user: ' + uid + ', filetype: ' + type + ', streamID: ' + fileId + '!'.green);
+                User.findById(uid, (err, doc) => {
+                    if(err) {
+                        console.error('Error finding user with id: ', uid);
+                        process.exit(1);
+                    } else {
+                        console.log('original doc: ', doc);
+                        doc.addMedia(type, fileId);
+                        doc.save();
+                        console.log('new doc: ', doc);
+                    }
+                })
+            }
+        });
+        userConn.close();
+    }
 };

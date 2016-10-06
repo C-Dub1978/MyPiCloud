@@ -9,15 +9,14 @@ var Read = require('./IO/readFile'),
 module.exports = {
 
     getAll: (req, res) => {
-        console.log('in our media crud file, we are requesting all media from the readall file            functionality');
         All(req, res);
     },
 
     writeFile: (req, res) => {
         var file = req.files['0'];
-        console.log('file from request is: ', file);
+        //console.log('file from request is: ', file);
         Write(file, req.query.id, req.query.type, res);
-        console.log('response back: ', res);
+        //console.log('response back: ', res);
     },
 
     readFile: (req, res, type) => {

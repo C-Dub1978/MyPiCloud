@@ -11,6 +11,8 @@ function Auth($http) { // auth controller constructor function
 
     auth.payload = {};
 
+
+
     auth.login = {
         submit: function($event) {
             console.debug('Login.submit');
