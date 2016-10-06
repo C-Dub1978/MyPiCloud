@@ -89,10 +89,14 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         $http(getAllReq)
             .then(function successCallback(res) {
                 console.log('all media sent from db: ', res.data.media);
-                myCtrl.media.audio = res.data.media.audio;
-                myCtrl.media.video = res.data.media.video;
-                myCtrl.media.image = res.data.media.image;
-                myCtrl.media.document = res.data.media.document;
+                var audio = res.data.media.audio;
+                var video = res.data.media.video;
+                var image = res.data.media.image;
+                var document = res.data.media.image;
+                myCtrl.addIndividualMedia(audio, 'audio');
+                myCtrl.addIndividualMedia(video, 'video');
+                myCtrl.addIndividualMedia(image, 'image');
+                myCtrl.addIndividualMedia(document, 'document');
             },
             function errorCallback() {
                 console.error('Error getting all media back from server');
@@ -179,4 +183,20 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         console.log('location switch call: ', url);
         $location.path(url);
     };
+
+    myCtrl.addIndividualMedia = function(array, type) {
+        for(var i = 0; i < array.length; i++) {
+            if(type === 'audio') {
+                myCtrl.media.audio.push(array[i]);
+            } else if(type === 'video') {
+                myCtrl.media.video.push(array[i]);
+            } else if(type === 'image') {
+                myCtrl.media.image.push(array[i]);
+            } else if(type === 'document') {
+                myCtrl.media.document.push(array[i]);
+            } else {
+                return;
+            }
+        }
+    }
 }
