@@ -3,26 +3,25 @@
  */
 var mongoose = require('mongoose'),
     Grid = require('gridfs-stream'),
-    user = '',
+    User = require('../../models/user'),
     files = {};
 
 module.exports = function(req, res) {
-    user = req.params.id;
-    var Url = 'mongodb://localhost:27017/Media';
-    mongo.connect(Url, function(err, db) {
+    var uid = req.query.id;
+    var conn = mongoose.createConnection('mongodb://localhost/mean-auth', (err) =>  {
           if(err) {
-              console.error('Error connecting to mongo to read all');
+              console.error('Error connecting to mean-auth instance to read all');
               process.exit(1);
           } else {
-              // here we will pass the user's array of media objects, loop through, find all, then send the array
-              // of object id's to have angular show with ng-repeat
-              var userCollection = db.collection('fs.files');
-              userCollection.find({}).toArray(function(err, docs) {
-                  console.log('media docs');
-                  console.log(docs);
-                  db.close();
-                  res.sendFile(__dirname + docs);
-              });
+              User.findById(uid, (err, doc) => {
+                  if(err) {
+                      console.error('Error finding user with id: ', uid);
+                      process.exit(1);
+                  } else {
+                      console.log('original doc: ', doc);
+                      res.status(200).send({media: doc.media});
+                  }
+              })
           }
     });
 };

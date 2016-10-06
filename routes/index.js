@@ -20,6 +20,7 @@ module.exports = function(app) {
     app.get('/dashboard', (req, res) => { // renders the dashboard, break this out into another controller if needed!
         res.render('dashboard', req.session);
     });
+    app.get('/dashboard/getAll', Media.getAll);
 
     // if there is no request following this call, then use the above app.get all callback format
     app.post('/dashboard/uploadAudio', multiparty(), Media.writeFile);

@@ -38,11 +38,16 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     myCtrl.currentUser = '';
 
     var formdata = new FormData();
+
     $scope.getTheFiles = function ($files) {
-        angular.forEach($files, function (value, key) {
-            //console.log('key: ' + key + ', val: ' + $files[key]);
-            formdata.append(key, value);
-        });
+        if($files == null) {
+            formdata = new FormData();
+        } else {
+            angular.forEach($files, function (value, key) {
+                //console.log('key: ' + key + ', val: ' + $files[key]);
+                formdata.append(key, value);
+            });
+        }
     };
 
     $scope.uploadFiles = function(url, fileType, uid) {
@@ -74,7 +79,24 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
 
     myCtrl.init = function(uid) {
         myCtrl.currentUser = uid;
-        console.log('user id set: ', myCtrl.currentUser);
+        var getAllReq = {
+            method: 'GET',
+            url: '/dashboard/getAll',
+            params: {
+                id: uid
+            }
+        };
+        $http(getAllReq)
+            .then(function successCallback(res) {
+                console.log('all media sent from db: ', res.data.media);
+                myCtrl.media.audio = res.data.media.audio;
+                myCtrl.media.video = res.data.media.video;
+                myCtrl.media.image = res.data.media.image;
+                myCtrl.media.document = res.data.media.document;
+            },
+            function errorCallback() {
+                console.error('Error getting all media back from server');
+            });
     };
 
     myCtrl.uploadFile = {
@@ -123,7 +145,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                         console.log('unkown type returned');
                         break;
                 }
-                $location.path('/audio');
+                $scope.getTheFiles(null);
             })
                 .error(function(err) {
                     console.error('Error with request');

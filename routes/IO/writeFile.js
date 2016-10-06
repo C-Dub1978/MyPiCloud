@@ -70,8 +70,6 @@ module.exports = function(file, userId, fileType, res) {
                 console.error('Error connecting to the mean-auth instance'.red);
                 process.exit(1);
             } else {
-                console.info('Connected to the mean-auth instance!'.blue);
-                console.info('Attempting to find user: ' + uid + ', filetype: ' + type + ', streamID: ' + fileId + '!'.green);
                 User.findById(uid, (err, doc) => {
                     if(err) {
                         console.error('Error finding user with id: ', uid);
