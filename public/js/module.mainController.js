@@ -88,15 +88,19 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         };
         $http(getAllReq)
             .then(function successCallback(res) {
-                console.log('all media sent from db: ', res.data.media);
-                var audio = res.data.media.audio;
-                var video = res.data.media.video;
-                var image = res.data.media.image;
-                var document = res.data.media.image;
-                myCtrl.addIndividualMedia(audio, 'audio');
-                myCtrl.addIndividualMedia(video, 'video');
-                myCtrl.addIndividualMedia(image, 'image');
-                myCtrl.addIndividualMedia(document, 'document');
+                if(res.data.media) {
+                    console.log('all media sent from db: ', res.data.media);
+                    var audio = res.data.media.audio;
+                    var video = res.data.media.video;
+                    var image = res.data.media.image;
+                    var document = res.data.media.image;
+                    myCtrl.addIndividualMedia(audio, 'audio');
+                    myCtrl.addIndividualMedia(video, 'video');
+                    myCtrl.addIndividualMedia(image, 'image');
+                    myCtrl.addIndividualMedia(document, 'document');
+                } else {
+                    return;
+                }
             },
             function errorCallback() {
                 console.error('Error getting all media back from server');

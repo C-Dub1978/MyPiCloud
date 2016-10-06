@@ -87,7 +87,9 @@ module.exports = {
                 }
             } else {
                 req.session.user = user;
-                res.send(messages.register); // send a success message  
+                req.session.reset();
+                res.send(messages.register); // send a success message
+                //sres.redirect('/login');
             }
         });
     },

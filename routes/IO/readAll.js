@@ -18,8 +18,12 @@ module.exports = function(req, res) {
                       console.error('Error finding user with id: ', uid);
                       process.exit(1);
                   } else {
-                      console.log('original doc: ', doc);
-                      res.status(200).send({media: doc.media});
+                      if(doc) {
+                          console.log('original doc: ', doc);
+                          res.status(200).send({media: doc.media});
+                      } else {
+                          res.status(200);
+                      }
                   }
               })
           }
