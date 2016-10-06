@@ -1,0 +1,30 @@
+body {
+    margin-top: 40px;
+    background-color: #4d4d4d;
+    color: #ff99ff;
+    font-family: 'Segoe UI Light';
+}
+
+input {
+    border:1px solid black;
+    outline:none;
+}
+
+input.ng-invalid{
+    border-color: red;
+}
+
+.btn.btn-default {
+    background-color: transparent;
+    border: 1px inset black;
+    box-shadow: 1px 1px 5px #ff99ff;
+    color: ghostwhite;
+}
+
+.btn.btn-default:selection {
+    color: #99ff99;
+}
+
+.btn.btn-default:hover {
+    color: #ff99ff;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="MyPiCloud">
+    <head>
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+        <script typ="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script>
+        <script type="text/javascript" src="//rawgit.com/TheSharpieOne/angular-input-match/master/dist/angular-validation-match.min.js"></script>
+        <script type="text/javascript" src="/js/ng-file-upload.min.js"></script>
+        <script type="text/javascript" src="/js/ng-file-upload-shim.min.js"></script>
+        <script type="text/javascript" src="/js/module.main.js"></script>
+        <script type="text/javascript" src="/js/module.mainController.js"></script>
+        <script type="text/javascript" src="/js/module.mediaFactory.js"></script>
+        <script type="text/javascript" src="/js/module.angularRoutes.js"></script>
+    </head>
+    <body ng-controller="MyPiController as myCont" class="container" ng--init="myCont.init('<%= uid %>')">
+        <div class="row">
+            <h1>Welcome to your dashboard!</h1>
+            <p>Mongo UserID: <%= uid %></p>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 navBar">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><button class="btn btn-default" ng-click="myCont.redirect('/home')">Home</button></li>
+                    <li role="presentation"><button class="btn btn-default" ng-click="myCont.redirect('/video')">Video</button></li>
+                    <li role="presentation"><button class="btn btn-default" ng-click="myCont.redirect('/audio')">Audio</button></li>
+                    <li role="presentation"><button class="btn btn-default" ng-click="myCont.redirect('/image')">Image</button></li>
+                    <li role="presentation"><button class="btn btn-default" ng-click="myCont.redirect('/document')">Document</button></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 logoRight">
+                <button class="btn btn-default logout" ng-click="myCont.log('logout clicked')">Logout</button>
+            </div>
+        </div>
+        <div ng-view=""></div>
+    </body>
+</html>

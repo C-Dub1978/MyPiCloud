@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app="module.auth">
+    <head>
+        <title>Login</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/auth.css">
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <script typ="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script>
+        <script type="text/javascript" src="//rawgit.com/TheSharpieOne/angular-input-match/master/dist/angular-validation-match.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/module.auth.js"></script>
+    </head>
+    <body ng-controller="module.auth.controller as auth" class="container">
+        <section id="tabs">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#login" aria-controls="home" role="tab" data-toggle="tab">Login</a>
+                </li>
+                <li role="presentation">
+                    <a href="#register" aria-controls="profile" role="tab" data-toggle="tab">Register</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div id="login" role="tabpanel" class="tab-pane active">
+                    <form ng-submit="auth.login.submit($event)">
+                        <h1 class="text-center">Login!</h1>
+                        <fieldset class="form-group">
+                            <label class="sr-only" for="email">Email</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">@</div>
+                                <input required placeholder="Email" class="form-control" type="text" ng-model="auth.payload.email"/>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label class="sr-only" for="password">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                                <input required placeholder="Password" class="form-control" type="password" ng-model="auth.payload.password"/>
+                            </div>
+                        </fieldset>
+                        <input class="btn btn-default" type="submit" value="Login">
+                        <p ng-class="auth.login.alert">{{ auth.login.message }}</p>
+                    </form>
+                </div>
+                <div id="register" role="tabpanel" class="tab-pane">
+                    <form ng-submit="auth.register.submit($event)">
+                        <h1 class="text-center">Register!</h1>
+                        <fieldset class="form-group">
+                            <label class="sr-only" for="email">Email</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">@</div>
+                                <input required placeholder="Email" class="form-control" type="text" ng-model="auth.payload.email"/>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label class="sr-only" for="name">UserName</label>
+                            <div class="input-group">
+                                <input required placeholder="UserName" class="form-control" type="text" ng-model="auth.payload.name"/>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label class="sr-only" for="password">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                                <input required placeholder="Create a password" class="form-control" type="password" ng-model="auth.payload.password"/>
+                            </div>
+                        </fieldset>
+                        <button class="btn btn-default" type="submit">Register</button>
+                        <p ng-class="auth.register.alert"><h3>{{ auth.register.message }}</h3></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

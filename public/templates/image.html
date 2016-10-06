@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-lg-10">
+        <h1>MyPi Images</h1>
+    </div>
+    <div class="col-lg-2">
+        <form name="form">
+            <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
+                   accept="'audio/*'">
+            <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadImage', 'image', myCont.currentUser)" value="Upload">
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2">left</div>
+    <div class="col-lg-8 mainContent">Center</div>
+    <div class="col-lg-2">right</div>
+</div>

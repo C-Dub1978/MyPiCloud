@@ -1,0 +1,27 @@
+{
+  "name": "mean-auth",
+  "version": "2.0.1",
+  "description": "Authenticate like a boss!",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "author": "jiminikiz",
+  "license": "ISC",
+  "dependencies": {
+    "angular-route": "^1.5.8",
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "client-sessions": "^0.7.0",
+    "colors": "^1.1.2",
+    "connect-multiparty": "^2.0.0",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "gridfs-stream": "^1.1.1",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.5.6",
+    "morgan": "^1.7.0",
+    "ng-file-upload": "^12.2.12"
+  }
+}
