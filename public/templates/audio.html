@@ -8,14 +8,15 @@
                    ng-keep="false"
                    accept="'audio/*'">
             <label for="file2">Enter Artist:</label>
-            <input type="text" id="file2" name="artist" ng-model="myCont.artist">
-            <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser)" value="Upload">
+            <input type="text" id="file2" name="artist" ng-model="myCont.info">
+            <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser, myCont.info)" value="Upload" ng-if="myCont.info">
         </form>
     </div>
 </div>
 <div class="row">
   <div ng-repeat="audio in myCont.media.audio" style="width:100%;background-color:#999999;border:1px solid deeppink;">
       <img src="../img/audio.png" />
-      <span>{{audio.name}}</span>
+      <span><h5>Artist: </h5>{{audio.mediaInfo}}</span>
+      <span><h5>Track: </h5>{{audio.title}}</span>
   </div>
 </div>

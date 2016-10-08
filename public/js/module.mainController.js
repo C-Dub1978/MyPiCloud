@@ -36,6 +36,8 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     myCtrl.icons = MyPiFactory.imageUrl;
 
     myCtrl.currentUser = '';
+    
+    myCtrl.info = null;
 
     var formdata = new FormData();
 
@@ -50,13 +52,14 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         }
     };
 
-    $scope.uploadFiles = function(url, fileType, uid) {
+    $scope.uploadFiles = function(url, fileType, uid, info) {
         var request = {
             method: 'POST',
             url: url,
             params: {
                 type: fileType,
-                id: uid
+                id: uid,
+                info: info
             },
             data: formdata,
             headers: {
@@ -122,8 +125,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
             $http(request).success(function(res) {
                 console.log('data returned back to angular: ', res);
                 switch(res.type) {
-                    case 'audio':                        
-                        //var obj = res;
+                    case 'audio':
                         res.url = myCtrl.icons.audioUrl;
                         myCtrl.media.audio.push(res);
                         console.log('the array is now: ', MyPiFactory.media.audio);
@@ -154,6 +156,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                         break;
                 }
                 $scope.getTheFiles(null);
+                myCtrl.info = null;
             })
                 .error(function(err) {
                     console.error('Error with request');

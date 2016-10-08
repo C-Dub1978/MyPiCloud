@@ -10,22 +10,50 @@ var mongoose = require('mongoose'),
         password : String,
         created  : {type: Date, default: Date.now},
         media: {
-            audio: [{type: mongoose.Schema.Types.ObjectId}],
-            video: [{type: mongoose.Schema.Types.ObjectId}],
-            image: [{type: mongoose.Schema.Types.ObjectId}],
-            document: [{type: mongoose.Schema.Types.ObjectId}]
+            audio: [
+                {
+                    id: mongoose.Schema.Types.ObjectId,
+                    artist: {type: String}
+                }
+            ],
+            video: [
+                {
+                    id: mongoose.Schema.Types.ObjectId,
+                    title: {type: String}
+                }
+            ],
+            image: [
+                {
+                    id: mongoose.Schema.Types.ObjectId
+                }
+            ],
+            document: [
+                {
+                    id: mongoose.Schema.Types.ObjectId
+                }
+            ]
         }
     });
 
-UserSchema.methods.addMedia = function(type, id) {
+UserSchema.methods.addMedia = function(type, id, info) {
         if(type === 'audio') {
-            this.media.audio.push(id);
+            this.media.audio.push({
+                id: id,
+                artist: info
+            });
         } else if(type === 'video') {
-            this.media.video.push(id);
+            this.media.video.push({
+                id: id,
+                title: info
+            });
         } else if(type === 'image') {
-            this.media.image.push(id);
+            this.media.image.push({
+                id: id
+            });
         } else if(type === 'document') {
-            this.media.document.push(id);
+            this.media.document.push({
+                id
+            });
         } else {
             console.error('File with id: ' + id + ' not found');
         }
