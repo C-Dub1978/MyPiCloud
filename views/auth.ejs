@@ -57,7 +57,7 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <label class="sr-only" for="name">UserName</label>
-                            <div class="input-group">
+                            <div class="input-group"><span class="glyphicon glyphicon-user"></span>
                                 <input required placeholder="UserName" class="form-control" type="text" ng-model="auth.payload.name"/>
                             </div>
                         </fieldset>
@@ -74,5 +74,8 @@
                 </div>
             </div>
         </section>
+        <div class="success">
+            {{auth.successMessage}}
+        </div>
     </body>
 </html>

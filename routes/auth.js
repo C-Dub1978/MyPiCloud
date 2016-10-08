@@ -10,12 +10,12 @@ var User = require('../models/user'),
         users: {
             duplicate: {
                 status: 409,
-                message: 'User already exists!'
+                message: 'Error registering'
             }
         },
         login: {
             status: 403,
-            message: 'Invalid username or password'
+            message: 'Error logging in'
         }
     },
     messages = {
@@ -89,7 +89,6 @@ module.exports = {
                 req.session.user = user;
                 req.session.reset();
                 res.send(messages.register); // send a success message
-                //sres.redirect('/login');
             }
         });
     },

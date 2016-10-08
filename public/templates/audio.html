@@ -3,10 +3,12 @@
         <h1>MyPi Audio</h1>
     </div>
     <div class="col-lg-2">
-        <form name="form">
+        <form name="form" class="fileInput">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
                    ng-keep="false"
                    accept="'audio/*'">
+            <label for="file2">Enter Artist:</label>
+            <input type="text" id="file2" name="artist" ng-model="myCont.artist">
             <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser)" value="Upload">
         </form>
     </div>

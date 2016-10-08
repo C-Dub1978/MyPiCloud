@@ -10,7 +10,8 @@ function Auth($http) { // auth controller constructor function
         alertError = ['alert','alert-danger'];
 
     auth.payload = {};
-
+    
+    auth.successMessage = '';
 
 
     auth.login = {
@@ -32,6 +33,7 @@ function Auth($http) { // auth controller constructor function
     auth.register = {
         submit: function($event) {
             $http.post('/register', auth.payload).then(auth.register.success, auth.register.error);
+            auth.successMessage = 'Registration Successful, please log in';
         },
         success: function(res) {
             // when register is successful, also redirect them into the dashboard (already logged in, [req.session.user] on the backend)

@@ -28,3 +28,8 @@ input.ng-invalid{
 .btn.btn-default:hover {
     color: #ff99ff;
 }
+
+.fileInput {
+    padding:5px;
+    margin:5px;
+}

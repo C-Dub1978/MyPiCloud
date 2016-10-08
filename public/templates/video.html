@@ -5,7 +5,9 @@
     <div class="col-lg-2">
         <form name="form">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
-                   accept="'audio/*'">
+                   accept="'video/*'">
+            <label for="title">Enter Video Title:</label>
+            <input type="text" id="title" name="title" ng-model="myCont.title">
             <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadVideo', 'video', myCont.currentUser)" value="Upload">
         </form>
     </div>
