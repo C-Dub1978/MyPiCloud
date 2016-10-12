@@ -37,7 +37,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
 
     myCtrl.currentUser = '';
     
-    myCtrl.info = null;
+    myCtrl.info = '';
 
     var formdata = new FormData();
 
@@ -101,6 +101,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                     myCtrl.addIndividualMedia(video, 'video');
                     myCtrl.addIndividualMedia(image, 'image');
                     myCtrl.addIndividualMedia(document, 'document');
+                    console.log('audio object 1 is: ', myCtrl.media.audio[0].artist);
                 } else {
                     return;
                 }
@@ -156,7 +157,8 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                         break;
                 }
                 $scope.getTheFiles(null);
-                myCtrl.info = null;
+                myCtrl.info = '';
+                $scope.form.$setPristine();
             })
                 .error(function(err) {
                     console.error('Error with request');
@@ -192,6 +194,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     };
 
     myCtrl.addIndividualMedia = function(array, type) {
+        console.log('we are adding individual objects into the ' + type + ' array');
         for(var i = 0; i < array.length; i++) {
             if(type === 'audio') {
                 myCtrl.media.audio.push(array[i]);

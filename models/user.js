@@ -12,47 +12,52 @@ var mongoose = require('mongoose'),
         media: {
             audio: [
                 {
-                    id: mongoose.Schema.Types.ObjectId,
-                    artist: {type: String}
+                    ref: mongoose.Schema.Types.ObjectId,
+                    artist: {type: String},
+                    title: {type: String}
                 }
             ],
             video: [
                 {
-                    id: mongoose.Schema.Types.ObjectId,
+                    ref: mongoose.Schema.Types.ObjectId,
                     title: {type: String}
                 }
             ],
             image: [
                 {
-                    id: mongoose.Schema.Types.ObjectId
+                    ref: mongoose.Schema.Types.ObjectId
                 }
             ],
             document: [
                 {
-                    id: mongoose.Schema.Types.ObjectId
+                    ref: mongoose.Schema.Types.ObjectId
                 }
             ]
         }
     });
 
-UserSchema.methods.addMedia = function(type, id, info) {
+UserSchema.methods.addMedia = function(type, id, info, title) {
         if(type === 'audio') {
             this.media.audio.push({
-                id: id,
-                artist: info
+                ref: id,
+                artist: info,
+                title: title
             });
         } else if(type === 'video') {
             this.media.video.push({
-                id: id,
-                title: info
+                ref: id,
+                title: info,
+
             });
         } else if(type === 'image') {
             this.media.image.push({
-                id: id
+                ref: id,
+                title: title
             });
         } else if(type === 'document') {
             this.media.document.push({
-                id
+                ref: id,
+                title: title
             });
         } else {
             console.error('File with id: ' + id + ' not found');
@@ -113,7 +118,7 @@ UserSchema.pre('save', function(next) {
     if ( !user.isModified('password') ) {
         return next();
     }
-    // generate a salt
+    // generate a saltmogod
     bcrypt.genSalt(SALT, (saltErr, salt) => {
         if (saltErr) {
             return next(saltErr);

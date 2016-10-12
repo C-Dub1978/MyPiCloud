@@ -43,14 +43,14 @@ module.exports = function(file, userId, fileType, fileInfo, res) {
         //  write stream to write to the DB via piping the writestream
         var readStream = fs.createReadStream(myFile)
             .on('end', () => {
-                writeToUserDb(userId, fileType, readStream.id, fileInfo);
+                writeToUserDb(userId, fileType, readStream.id, fileInfo, fileTitle);
                 res.status(200).send(
                     {
-                        id: readStream.id, 
+                        ref: readStream.id,
                         type: fileType, 
                         user: userId, 
                         mediaInfo: fileInfo,
-                        title: fileTitle
+                        title: fileTitle                        
                     }
                 );
             })
@@ -69,7 +69,7 @@ module.exports = function(file, userId, fileType, fileInfo, res) {
         });
     });
 
-    function writeToUserDb(uid, type, fileId, authInfo) {
+    function writeToUserDb(uid, type, fileId, authInfo, title) {
         var userConn = mongoose.createConnection('mongodb://localhost/mean-auth', (error) => {
             if(error) {
                 console.error('Error connecting to the mean-auth instance'.red);
@@ -81,7 +81,7 @@ module.exports = function(file, userId, fileType, fileInfo, res) {
                         process.exit(1);
                     } else {
                         console.log('original doc: ', doc);
-                        doc.addMedia(type, fileId, authInfo);
+                        doc.addMedia(type, fileId, authInfo, title);
                         doc.save();
                         console.log('new doc: ', doc);
                     }

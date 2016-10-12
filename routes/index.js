@@ -1,4 +1,4 @@
-'use strict'
+ 'use strict'
 
 var Auth = require('./auth'),
     Media = require('./mediaCRUD'),

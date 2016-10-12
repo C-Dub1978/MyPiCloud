@@ -14,7 +14,7 @@ module.exports = {
 
     writeFile: (req, res) => {
         var file = req.files['0'];       
-        Write(file, req.query.id, req.query.type, req.query.info, res);        
+        Write(file, req.query.id, req.query.type, req.query.info, res);         
     },
 
     readFile: (req, res, type) => {
