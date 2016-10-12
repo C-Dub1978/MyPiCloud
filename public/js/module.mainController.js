@@ -101,7 +101,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                     myCtrl.addIndividualMedia(video, 'video');
                     myCtrl.addIndividualMedia(image, 'image');
                     myCtrl.addIndividualMedia(document, 'document');
-                    console.log('audio object 1 is: ', myCtrl.media.audio[0].artist);
+                    console.log('video object 1 is: ', myCtrl.media.video[0].mediaInfo);
                 } else {
                     return;
                 }
@@ -122,40 +122,10 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                 });
         },
         audio: function(request) {
-            console.log('called the audio upload function from scope, request is: ', request);
+            //console.log('called the audio upload function from scope, request is: ', request);
             $http(request).success(function(res) {
-                console.log('data returned back to angular: ', res);
-                switch(res.type) {
-                    case 'audio':
-                        res.url = myCtrl.icons.audioUrl;
-                        myCtrl.media.audio.push(res);
-                        console.log('the array is now: ', MyPiFactory.media.audio);
-                        break;
-                    case 'video':
-                        console.log('video type');
-                        //var obj = res;
-                        res.url = myCtrl.icons.videoUrl;
-                        myCtrl.media.video.push(res);
-                        console.log('the array is now: ', myCtrl.media.video);
-                        break;
-                    case 'image':
-                        console.log('image type');
-                        //var obj = res;
-                        res.url = myCtrl.icons.imageUrl;
-                        myCtrl.media.image.push(res);
-                        console.log('the array is now: ', myCtrl.media.image);
-                        break;
-                    case 'document':
-                        console.log('document type');
-                        //var obj = res;
-                        res.url = myCtrl.icons.documentUrl;
-                        myCtrl.media.document.push(res);
-                        console.log('the array is now: ', myCtrl.media.document);
-                        break;
-                    default:
-                        console.log('unkown type returned');
-                        break;
-                }
+                //console.log('data returned back to angular: ', res);
+                myCtrl.checkType(res, res.type);
                 $scope.getTheFiles(null);
                 myCtrl.info = '';
                 $scope.form.$setPristine();
@@ -168,6 +138,10 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
             console.log('called the video upload function from scope, request is: ', request);
             $http(request).success(function(res) {
                 console.log('data returned: ', res);
+                myCtrl.checkType(res, res.type);
+                $scope.getTheFiles(null);
+                myCtrl.info = '';
+                $scope.form.$setPristine();
             })
                 .error(function(err) {
                     console.error('Error with request');
@@ -186,6 +160,10 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
             var percent = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + percent + '%' + evt.config.data.file.name);
         }
+    };
+
+    myCtrl.downloadFile = function(id, fsLocation) {
+        console.log('download file clicked');
     };
 
     myCtrl.redirect = function(url) {
@@ -207,6 +185,39 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
             } else {
                 return;
             }
+        }
+    };
+
+    myCtrl.checkType = function(res, type) {
+        switch(type) {
+            case 'audio':
+                res.url = myCtrl.icons.audioUrl;
+                myCtrl.media.audio.push(res);
+                console.log('the array is now: ', MyPiFactory.media.audio);
+                break;
+            case 'video':
+                console.log('video type');
+                res.url = myCtrl.icons.videoUrl;
+                myCtrl.media.video.push(res);
+                console.log('the array is now: ', myCtrl.media.video);
+                break;
+            case 'image':
+                console.log('image type');
+                //var obj = res;
+                res.url = myCtrl.icons.imageUrl;
+                myCtrl.media.image.push(res);
+                console.log('the array is now: ', myCtrl.media.image);
+                break;
+            case 'document':
+                console.log('document type');
+                //var obj = res;
+                res.url = myCtrl.icons.documentUrl;
+                myCtrl.media.document.push(res);
+                console.log('the array is now: ', myCtrl.media.document);
+                break;
+            default:
+                console.log('unkown type returned');
+                break;
         }
     }
 }

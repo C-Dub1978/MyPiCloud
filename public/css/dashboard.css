@@ -29,7 +29,25 @@ input.ng-invalid{
     color: #ff99ff;
 }
 
+.btn.btn-primary {
+    background-color:deeppink;
+    border:3px inset #99ff99;
+    opacity: .7;
+    text-align:center;
+    vertical-align:middle;
+    border-radius:5px;
+}
+
 .fileInput {
     padding:5px;
     margin:5px;
+}
+
+.mediaDiv {
+    background-color: #999999;
+    border: 1px solid deeppink;
+    float: left;
+    text-align: center;
+    padding: 10px;
+    margin: 5px;
 }

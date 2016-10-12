@@ -13,24 +13,26 @@ var mongoose = require('mongoose'),
             audio: [
                 {
                     ref: mongoose.Schema.Types.ObjectId,
-                    artist: {type: String},
+                    mediaInfo: {type: String},
                     title: {type: String}
                 }
             ],
             video: [
                 {
                     ref: mongoose.Schema.Types.ObjectId,
-                    title: {type: String}
+                    mediaInfo: {type: String}
                 }
             ],
             image: [
                 {
-                    ref: mongoose.Schema.Types.ObjectId
+                    ref: mongoose.Schema.Types.ObjectId,
+                    title: {type: String}
                 }
             ],
             document: [
                 {
-                    ref: mongoose.Schema.Types.ObjectId
+                    ref: mongoose.Schema.Types.ObjectId,
+                    title: {type: String}
                 }
             ]
         }
@@ -40,13 +42,13 @@ UserSchema.methods.addMedia = function(type, id, info, title) {
         if(type === 'audio') {
             this.media.audio.push({
                 ref: id,
-                artist: info,
+                mediaInfo: info,
                 title: title
             });
         } else if(type === 'video') {
             this.media.video.push({
                 ref: id,
-                title: info,
+                mediaInfo: info,
 
             });
         } else if(type === 'image') {

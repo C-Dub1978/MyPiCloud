@@ -6,17 +6,28 @@
         <form name="form" class="fileInput">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
                    ng-keep="false"
-                   accept="'audio/*'">
+                   ngf-accept="'audio/*'"
+                   >
             <label for="file2">Enter Artist:</label>
             <input type="text" id="file2" name="artist" ng-model="myCont.info">
-            <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser, myCont.info)" value="Upload" ng-if="myCont.info">
+            <input type="button" class="btn btn-default"
+                   ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser, myCont.info)"
+                   value="Upload"
+                   ng-disabled="!myCont.info">
         </form>
     </div>
 </div>
 <div class="row">
-  <div ng-repeat="audio in myCont.media.audio" style="width:100%;background-color:#999999;border:1px solid deeppink;">
+  <div ng-repeat="audio in myCont.media.audio" class="mediaDiv">
       <img src="../img/audio.png" />
-      <span><h5>Artist: </h5>{{audio.mediaInfo}}</span>
-      <span><h5>Track: </h5>{{audio.title}}</span>
+      <div class="mediaDivInfoContainer">
+      <span class="mediaDivInfo"><h5>Artist: {{audio.mediaInfo}}</h5></span>
+      <span class="mediaDivInfo"><h5>Track: {{audio.title}}</h5></span>
+      <span class="mediaDivInfo">
+          <button class="btn btn-primary"
+                  ng-click="myCont.downloadFile(audio.ref, 'z:\testDownloads')">Download
+          </button>
+      </span>
+      </div>
   </div>
 </div>

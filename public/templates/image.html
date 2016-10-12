@@ -5,13 +5,23 @@
     <div class="col-lg-2">
         <form name="form">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
-                   accept="'audio/*'">
+                   ng-keep="false"
+                   ngf-accept="'image/*'"
+                    >
             <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadImage', 'image', myCont.currentUser)" value="Upload">
         </form>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-2">left</div>
-    <div class="col-lg-8 mainContent">Center</div>
-    <div class="col-lg-2">right</div>
+    <div ng-repeat="image in myCont.media.image" class="mediaDiv">
+        <img ngf-thumbnail="file || '../img/image.png'" style="width:100px;height:100px">
+        <div class="mediaDivInfoContainer">
+            <span class="mediaDivInfo"><h5>Image: {{image.title}}</h5></span>
+            <span class="mediaDivInfo">
+          <button class="btn btn-primary"
+                  ng-click="myCont.downloadFile(image.ref, 'z:\testDownloads')">Download
+          </button>
+      </span>
+        </div>
+    </div>
 </div>

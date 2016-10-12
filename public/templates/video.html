@@ -5,15 +5,28 @@
     <div class="col-lg-2">
         <form name="form">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
-                   accept="'video/*'">
+                   ng-keep="false"
+                   ngf-accept="'video/*"
+                   >
             <label for="title">Enter Video Title:</label>
             <input type="text" id="title" name="title" ng-model="myCont.info">
-            <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadVideo', 'video', myCont.currentUser, myCont.info)" value="Upload" ng-if="myCont.info">
+            <input type="button" class="btn btn-default"
+                   ng-click="uploadFiles('/dashboard/uploadVideo', 'video', myCont.currentUser, myCont.info)"
+                   value="Upload"
+                   ng-disabled="!myCont.info">
         </form>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-2">left</div>
-    <div class="col-lg-8 mainContent">Center</div>
-    <div class="col-lg-2">right</div>
+    <div ng-repeat="video in myCont.media.video" class="mediaDiv">
+        <img src="../img/video.png" />
+        <div class="mediaDivInfoContainer">
+            <span class="mediaDivInfo"><h5>Title: {{video.mediaInfo}}</h5></span>
+            <span class="mediaDivInfo">
+          <button class="btn btn-primary"
+                  ng-click="myCont.downloadFile(audio.ref, 'z:\testDownloads')">Download
+          </button>
+      </span>
+        </div>
+    </div>
 </div>
