@@ -23,7 +23,10 @@ module.exports = {
     },
 
     deleteFile: (req, res) => {
-        console.log('in our media crud file, requesting delete');
-        Delete(req, res);
+        console.log('in our media crud file, requesting delete:');
+        console.log(req.query.id);
+        console.log(req.query.info);
+        console.log(req.query.type);
+        Delete(req.query.id, req.query.info, req.query.type, res);
     }
 };

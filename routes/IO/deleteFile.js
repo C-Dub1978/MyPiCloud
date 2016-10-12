@@ -2,32 +2,60 @@
  * Created by foolishklown on 10/2/2016.
  */
 
-var mongoose = require('mongoose'),
-    path = require('path'),
-    Grid = require('gridfs-stream');
+var Grid = require('gridfs-stream'),
+    User = require('../../models/user'),
+    mongoose = require('mongoose');
 
-// here we will have to pass in the userid, and connect to their media database
-// then we can use the object id to delete the file (or filename)
-module.exports = function(fileName, res) {
-    console.log('called delete file for gridfs');
-    console.log('file is: ', fileName);
-    var conn = mongoose.createConnection('mongodb://localhost/Media', (error) => {
-        if(error) {
-            console.error('Error connecting to mongod instance'.red);
-            process.exit(1);
+
+module.exports = function(id, ref, type, res) {
+    console.log(ref.green);
+    Grid.mongo = mongoose.mongo;
+
+    var conn = mongoose.createConnection('mongodb://localhost/media', (err) => {
+        if(err) {
+            console.error('cant connect to instance to delete'.red);
         } else {
-            console.info('Connected successfully to mongod instance in the write file!'.blue);
+            console.info('connected successfully, trying to delete'.cyan);
         }
     });
 
-    // Connect gridFs and mongo
-    Grid.mongo = mongoose.mongo;
-
-    conn.once('open', function() {
-        console.log('connection open for reading!!!');
+    conn.once('open', () => {
+        console.log('opened'.green);
         var gfs = Grid(conn.db);
 
-       // find the file, delete
-
+        gfs.files.remove({
+            _id: ref
+        },(err) => {
+            if(err) {
+                return handleError(err);
+            }
+            console.log('removed : ', ref);
+            deleteFromUserDb(id, type, ref);
+            res.status(200).send({id: id, type: type, ref: ref});
+            }
+        )
     });
+
+    conn.close();
+
+    function deleteFromUserDb(userId, fileType, refId) {
+        var userConn = mongoose.createConnection('mongodb://localhost/mean-auth', (error) => {
+            if(error) {
+                console.error('Error connecting to the mean-auth instance'.red);
+                process.exit(1);
+            } else {
+                User.findById(userId, (err, doc) => {
+                    if(err) {
+                        console.error('Error finding user with id: ', uid);
+                        process.exit(1);
+                    } else {
+                        console.log('original doc: ', doc);
+                        doc.removeMedia(fileType, refId);
+                        doc.save();
+                        console.log('new doc: ', doc);
+                    }
+                })
+            }
+        });
+    }
 };

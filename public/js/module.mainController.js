@@ -67,17 +67,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
             }
         };
         console.log('the request built is ', request);
-        if(fileType === 'image') {
-            myCtrl.uploadFile.image(request);
-        } else if(fileType === 'audio') {
-            myCtrl.uploadFile.audio(request);
-        } else if(fileType === 'video') {
-            myCtrl.uploadFile.video(request);
-        } else if(fileType === 'document') {
-            myCtrl.uploadFile.document(request);
-        } else {
-            console.error('Error, invalid file type');
-        }
+        myCtrl.uploadFile.file(request);
     };
 
     myCtrl.init = function(uid) {
@@ -101,7 +91,6 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                     myCtrl.addIndividualMedia(video, 'video');
                     myCtrl.addIndividualMedia(image, 'image');
                     myCtrl.addIndividualMedia(document, 'document');
-                    console.log('video object 1 is: ', myCtrl.media.video[0].mediaInfo);
                 } else {
                     return;
                 }
@@ -112,50 +101,15 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     };
 
     myCtrl.uploadFile = {
-        image: function(request) {
-            //console.log('called the image upload function from scope, request is: ', request);
+        file: function(request) {
             $http(request).success(function(res) {
-                console.log('data returned: ', res);
-            })
-                .error(function(err) {
-                    console.error('Error with request');
-                });
-        },
-        audio: function(request) {
-            //console.log('called the audio upload function from scope, request is: ', request);
-            $http(request).success(function(res) {
-                //console.log('data returned back to angular: ', res);
                 myCtrl.checkType(res, res.type);
                 $scope.getTheFiles(null);
                 myCtrl.info = '';
                 $scope.form.$setPristine();
             })
-                .error(function(err) {
-                    console.error('Error with request');
-                });
         },
-        video: function(request) {
-            console.log('called the video upload function from scope, request is: ', request);
-            $http(request).success(function(res) {
-                console.log('data returned: ', res);
-                myCtrl.checkType(res, res.type);
-                $scope.getTheFiles(null);
-                myCtrl.info = '';
-                $scope.form.$setPristine();
-            })
-                .error(function(err) {
-                    console.error('Error with request');
-                });
-        },
-        document: function(request) {
-            console.log('called the document upload function from scope, request is: ', request);
-            $http(request).success(function(res) {
-                console.log('data returned: ', res);
-            })
-                .error(function(err) {
-                    console.error('Error with request');
-                });
-        },
+
         progress: function(evt) {
             var percent = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + percent + '%' + evt.config.data.file.name);
@@ -186,6 +140,37 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                 return;
             }
         }
+    };
+
+    myCtrl.streamMedia = function(ref) {
+        console.log('need to stream file: ', ref);
+    };
+
+    myCtrl.removeFile = function(url, reqType, fileType, uid, ref) {
+        console.log('need to remove file: ', ref);
+        var req = MyPiFactory.request(url, reqType, fileType, uid, ref, 'none');
+        $http(req).success((res) => {
+            console.log('request sent back from file deletion in http call: ', res);
+            var currentArray;
+            if(fileType === 'audio') {
+                currentArray = myCtrl.media.audio;
+            } else if(fileType === 'video') {
+                currentArray = myCtrl.media.video;
+            } else if(fileType === 'image') {
+                currentArray = myCtrl.media.image;
+            } else if(fileType === 'document') {
+                currentArray = myCtrl.media.document;
+            } else {
+                console.error('File type not found');
+            }
+            console.log('media array before splice removal: ', currentArray);
+            for(var i = 0; i < currentArray.length; i++) {
+                if(ref === currentArray[i].ref) {
+                    currentArray.splice(i, 1);
+                }
+            }
+            console.log('media array after splice removal: ', currentArray);
+        })
     };
 
     myCtrl.checkType = function(res, type) {

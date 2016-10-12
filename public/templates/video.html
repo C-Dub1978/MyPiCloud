@@ -19,12 +19,19 @@
 </div>
 <div class="row">
     <div ng-repeat="video in myCont.media.video" class="mediaDiv">
-        <img src="../img/video.png" />
+        <p>Click to stream</p>
+        <div class="streamContainer"
+             ng-click="myCont.streamMedia(video.ref)">
+            <img class="mediaHover" src="../img/video.png" />
+        </div>
         <div class="mediaDivInfoContainer">
             <span class="mediaDivInfo"><h5>Title: {{video.mediaInfo}}</h5></span>
             <span class="mediaDivInfo">
           <button class="btn btn-primary"
-                  ng-click="myCont.downloadFile(audio.ref, 'z:\testDownloads')">Download
+                  ng-click="myCont.downloadFile(video.ref, 'z:\testDownloads')">Download
+          </button>
+                <button class="btn btn-delete"
+                        ng-click="myCont.removeFile(video.ref)">Delete
           </button>
       </span>
         </div>

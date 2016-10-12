@@ -25,6 +25,10 @@ module.exports = function(app) {
     // if there is no request following this call, then use the above app.get all callback format
     app.post('/dashboard/uploadAudio', multiparty(), Media.writeFile);
     app.post('/dashboard/uploadVideo', multiparty(), Media.writeFile);
+    app.post('/dashboard/uploadImage', multiparty(), Media.writeFile);
+    app.post('/dashboard/uploadDocument', multiparty(), Media.writeFile);
+
+    app.delete('/dashboard/removeMedia', multiparty(), Media.deleteFile);
 
 
 };

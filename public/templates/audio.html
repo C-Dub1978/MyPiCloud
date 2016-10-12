@@ -19,15 +19,22 @@
 </div>
 <div class="row">
   <div ng-repeat="audio in myCont.media.audio" class="mediaDiv">
-      <img src="../img/audio.png" />
+      <p>Click to stream</p>
+      <div class="streamContainer"
+            ng-click="myCont.streamMedia(audio.ref)">
+          <img class="mediaHover" src="../img/audio.png" />
+      </div>
       <div class="mediaDivInfoContainer">
-      <span class="mediaDivInfo"><h5>Artist: {{audio.mediaInfo}}</h5></span>
-      <span class="mediaDivInfo"><h5>Track: {{audio.title}}</h5></span>
-      <span class="mediaDivInfo">
-          <button class="btn btn-primary"
-                  ng-click="myCont.downloadFile(audio.ref, 'z:\testDownloads')">Download
-          </button>
-      </span>
+          <span class="mediaDivInfo"><h5>Artist: {{audio.mediaInfo}}</h5></span>
+          <span class="mediaDivInfo"><h5>Track: {{audio.title}}</h5></span>
+          <span class="mediaDivInfo">
+              <button class="btn btn-primary"
+                      ng-click="myCont.downloadFile(audio.ref, 'z:\testDownloads')">Download
+              </button>
+              <button class="btn btn-delete"
+                      ng-click="myCont.removeFile('/dashboard/removeMedia/', 'DELETE', 'audio', myCont.currentUser, audio.ref)">Delete
+              </button>
+          </span>
       </div>
   </div>
 </div>

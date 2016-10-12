@@ -14,12 +14,15 @@
 </div>
 <div class="row">
     <div ng-repeat="image in myCont.media.image" class="mediaDiv">
-        <img ngf-thumbnail="file || '../img/image.png'" style="width:100px;height:100px">
+        <img ngf-thumbnail="file" style="width:100px;height:100px">
         <div class="mediaDivInfoContainer">
             <span class="mediaDivInfo"><h5>Image: {{image.title}}</h5></span>
             <span class="mediaDivInfo">
           <button class="btn btn-primary"
                   ng-click="myCont.downloadFile(image.ref, 'z:\testDownloads')">Download
+          </button>
+          <button class="btn btn-delete"
+                  ng-click="myCont.removeFile(image.ref)">Delete
           </button>
       </span>
         </div>
