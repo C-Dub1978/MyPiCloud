@@ -7,15 +7,15 @@ var mongoose = require('mongoose'),
     fs = require('fs'),
     buffer = '';
 
-module.exports = function(fileName, res) {
+module.exports = function(fileId, res) {
     console.log('called the read file for gridfs');
-    console.log('file is: ', fileName);
+    console.log('file is: ', fileId);
     var conn = mongoose.createConnection('mongodb://localhost/Media', (error) => {
         if(error) {
             console.error('Error connecting to mongod instance'.red);
             process.exit(1);
         } else {
-            console.info('Connected successfully to mongod instance in the write file!'.blue);
+            console.info('Connected successfully to mongod instance in the read file!'.blue);
         }
     });
 

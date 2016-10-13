@@ -28,7 +28,7 @@ module.exports = function(app) {
     app.post('/dashboard/uploadImage', multiparty(), Media.writeFile);
     app.post('/dashboard/uploadDocument', multiparty(), Media.writeFile);
 
-    app.delete('/dashboard/removeMedia', multiparty(), Media.deleteFile);
+    app.get('/dashboard/removeMedia', multiparty(), Media.deleteFile);
 
 
 };

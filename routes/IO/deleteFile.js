@@ -11,31 +11,27 @@ module.exports = function(id, ref, type, res) {
     console.log(ref.green);
     Grid.mongo = mongoose.mongo;
 
-    var conn = mongoose.createConnection('mongodb://localhost/media', (err) => {
-        if(err) {
-            console.error('cant connect to instance to delete'.red);
-        } else {
-            console.info('connected successfully, trying to delete'.cyan);
-        }
-    });
-
-    conn.once('open', () => {
-        console.log('opened'.green);
+    var conn = mongoose.createConnection('mongodb://localhost/media');
+    conn.once('open', function () {
         var gfs = Grid(conn.db);
-
-        gfs.files.remove({
-            _id: ref
-        },(err) => {
+        gfs.exist({_id: ref}, function(err, found) {
             if(err) {
-                return handleError(err);
+                console.error('error finding file'.red);
+            } else {
+                console.info('found file', found);
+                gfs.files.remove({_id: ref  }, function(err) {
+                    if(err) {
+                        console.error('error removing that file');
+                        process.exit(1);
+                    } else {
+                        console.info('removed file: ', found.green);
+                        deleteFromUserDb(id, type, ref);
+                        res.status(200).send({id: id, type: type, ref: ref});
+                    }
+                });
             }
-            console.log('removed : ', ref);
-            deleteFromUserDb(id, type, ref);
-            res.status(200).send({id: id, type: type, ref: ref});
-            }
-        )
+        });
     });
-
     conn.close();
 
     function deleteFromUserDb(userId, fileType, refId) {
