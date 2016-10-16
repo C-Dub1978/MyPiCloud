@@ -4,7 +4,8 @@
 var Read = require('./IO/readFile'),
     Write = require('./IO/writeFile'),
     All = require('./IO/readAll'),    
-    Delete = require('./IO/deleteFile');
+    Delete = require('./IO/deleteFile'),
+    CRUD = require('./IO/CRUD');
 
 module.exports = {
 
@@ -13,8 +14,9 @@ module.exports = {
     },
 
     writeFile: (req, res) => {
-        var file = req.files['0'];       
-        Write(file, req.query.id, req.query.type, req.query.info, res);         
+        var file = req.files['0'];
+        Write(file, req.query.id, req.query.type, req.query.info, res);
+        //CRUD.writeFile(req.query.id, file, req.query.type, req.query.info, file.originalFilename, res);
     },
 
     readFile: (req, res, type) => {
@@ -27,6 +29,7 @@ module.exports = {
         console.log(req.query.id);
         console.log(req.query.info);
         console.log(req.query.type);
-        Delete(req.query.id, req.query.info, req.query.type, res);
+        //Delete(req.query.id, req.query.info, req.query.type, res);
+        CRUD.deleteFile(req.query.id, req.query.type, req.query.info, res)
     }
 };

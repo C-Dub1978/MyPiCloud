@@ -11,15 +11,19 @@ module.exports = function(id, ref, type, res) {
     console.log(ref.green);
     Grid.mongo = mongoose.mongo;
 
+    var objId = mongoose.mongo.ObjectId(ref);
+    console.log('TEST'.yellow);
+    console.log(objId);
+
     var conn = mongoose.createConnection('mongodb://localhost/media');
     conn.once('open', function () {
         var gfs = Grid(conn.db);
-        gfs.exist({_id: ref}, function(err, found) {
+        gfs.exist({_id: objId}, function(err, found) {
             if(err) {
                 console.error('error finding file'.red);
             } else {
                 console.info('found file', found);
-                gfs.files.remove({_id: ref  }, function(err) {
+                gfs.remove({_id: objId }, function(err) {
                     if(err) {
                         console.error('error removing that file');
                         process.exit(1);
