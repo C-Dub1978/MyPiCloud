@@ -10,18 +10,20 @@ var Read = require('./IO/readFile'),
 module.exports = {
 
     getAll: (req, res) => {
-        All(req, res);
+        //All(req, res);
+        CRUD.getAll(req, res);
     },
 
     writeFile: (req, res) => {
         var file = req.files['0'];
-        Write(file, req.query.id, req.query.type, req.query.info, res);
-        //CRUD.writeFile(req.query.id, file, req.query.type, req.query.info, file.originalFilename, res);
+        //Write(file, req.query.id, req.query.type, req.query.info, res);
+        CRUD.writeFile(file, req.query.id, req.query.type, req.query.info, res);
     },
 
-    readFile: (req, res, type) => {
+    downloadFile: (req, res) => {
         console.log('in our media crud file, we are calling to write in the readFile file...');
-        Read(req, res, type);
+        //Read(req, res, type);
+        CRUD.downloadFile(req.query.id, req.query.info, res);
     },
 
     deleteFile: (req, res) => {

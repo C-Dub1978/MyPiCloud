@@ -1,7 +1,7 @@
  'use strict'
 
 var Auth = require('./auth'),
-    Media = require('./mediaCRUD'),
+    Media = require('./media'),
     multiparty = require('connect-multiparty');
 
 module.exports = function(app) {
@@ -29,6 +29,6 @@ module.exports = function(app) {
     app.post('/dashboard/uploadDocument', multiparty(), Media.writeFile);
 
     app.get('/dashboard/removeMedia', multiparty(), Media.deleteFile);
-
+    app.get('/dashboard/downloadMedia', Media.downloadFile);
 
 };

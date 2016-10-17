@@ -12,26 +12,26 @@ var mongoose = require('mongoose'),
         media: {
             audio: [
                 {
-                    ref: mongoose.Schema.Types.ObjectId,
+                    ref: {type: String},
                     mediaInfo: {type: String},
                     title: {type: String}
                 }
             ],
             video: [
                 {
-                    ref: mongoose.Schema.Types.ObjectId,
+                    ref: {type: String},
                     mediaInfo: {type: String}
                 }
             ],
             image: [
                 {
-                    ref: mongoose.Schema.Types.ObjectId,
+                    ref: {type: String},
                     title: {type: String}
                 }
             ],
             document: [
                 {
-                    ref: mongoose.Schema.Types.ObjectId,
+                    ref: {type: String},
                     title: {type: String}
                 }
             ]
@@ -67,27 +67,30 @@ UserSchema.methods.addMedia = function(type, id, info, title) {
 };
 
 UserSchema.methods.removeMedia = function(type, id) {
+    console.log('the id to remove is: ', id);
+    console.log('the type to remove is: ', type);
     if(type === 'audio') {
         for(var i = 0; i < this.media.audio.length; i++) {
-            if(this.media.audio[i] === id) {
+            console.log(this.media.audio[i].ref);
+            if(this.media.audio[i].ref === id) {
                 this.media.audio.splice(i, 1);
             }
         }
     } else if(type === 'video') {
         for(var i = 0; i < this.media.video.length; i++) {
-            if(this.media.video[i] === id) {
+            if(this.media.video[i].ref === id) {
                 this.media.video.splice(i, 1);
             }
         }
     } else if(type === 'image') {
         for(var i = 0; i < this.media.image.length; i++) {
-            if(this.media.image[i] === id) {
+            if(this.media.image[i].ref === id) {
                 this.media.image.splice(i, 1);
             }
         }
     } else if(type === 'document') {
         for(var i = 0; i < this.media.document.length; i++) {
-            if(this.media.document[i] === id) {
+            if(this.media.document[i].ref === id) {
                 this.media.document.splice(i, 1);
             }
         }
