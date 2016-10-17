@@ -6,6 +6,7 @@
         <form name="form">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
                    ng-keep="false"
+                   ngf-patter="'image/*'"
                    ngf-accept="'image/*'"
                     >
             <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadImage', 'image', myCont.currentUser)" value="Upload">

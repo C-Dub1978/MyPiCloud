@@ -3,7 +3,6 @@
  */
 angular.module('MyPiCloud')
     .directive('ngFiles', ['$parse', function ($parse) {
-
         function fn_link(scope, element, attrs) {
             console.log('directive called');
             var onChange = $parse(attrs.ngFiles);
@@ -39,6 +38,10 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     
     myCtrl.info = '';
 
+    myCtrl.uploadInProgress = false;
+
+    myCtrl.theFile = null;
+
     var formdata = new FormData();
 
     $scope.getTheFiles = function ($files) {
@@ -46,28 +49,39 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
             formdata = new FormData();
         } else {
             angular.forEach($files, function (value, key) {
-                //console.log('key: ' + key + ', val: ' + $files[key]);
                 formdata.append(key, value);
             });
         }
+        myCtrl.theFile = $files;
+        console.log('the file is: ', myCtrl.theFile);
     };
 
     $scope.uploadFiles = function(url, fileType, uid, info) {
-        var request = {
-            method: 'POST',
-            url: url,
-            params: {
-                type: fileType,
-                id: uid,
-                info: info
-            },
-            data: formdata,
-            headers: {
-                'Content-Type': undefined
-            }
-        };
-        console.log('the request built is ', request);
-        myCtrl.uploadFile.file(request);
+        console.log('checking to see about the scope files variable: ', myCtrl.theFile);
+        if(!info) {
+            info = 'Unkown';
+        }
+        if(myCtrl.theFile === null || myCtrl.theFile.length === 0) {
+            return;
+        } else {
+            myCtrl.uploadInProgress = true;
+            console.log('uploading....', myCtrl.uploadInProgress);
+            var request = {
+                method: 'POST',
+                url: url,
+                params: {
+                    type: fileType,
+                    id: uid,
+                    info: info
+                },
+                data: formdata,
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+            console.log('the request built is ', request);
+            myCtrl.uploadFile.file(request);
+        }
     };
 
     myCtrl.init = function(uid) {
@@ -102,17 +116,16 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
 
     myCtrl.uploadFile = {
         file: function(request) {
-            $http(request).success(function(res) {
+            $scope.finderLoader = true;
+            $http(request)
+                .success(function(res) {
                 myCtrl.checkType(res, res.type);
                 $scope.getTheFiles(null);
                 myCtrl.info = '';
-                $scope.form.$setPristine();
-            })
-        },
-
-        progress: function(evt) {
-            var percent = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + percent + '%' + evt.config.data.file.name);
+                $scope.finderLoader = false;
+                myCtrl.uploadInProgress = false;
+                console.log('uploading.....', myCtrl.uploadInProgress);
+            });
         }
     };
 

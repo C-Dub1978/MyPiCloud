@@ -6,7 +6,8 @@
         <form name="form">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
                    ng-keep="false"
-                   ngf-accept="'video/*"
+                   ngf-pattern="'video/*'"
+                   ngf-accept="'video/*'"
                    >
             <label for="title">Enter Video Title:</label>
             <input type="text" id="title" name="title" ng-model="myCont.info">

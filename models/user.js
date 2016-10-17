@@ -67,8 +67,6 @@ UserSchema.methods.addMedia = function(type, id, info, title) {
 };
 
 UserSchema.methods.removeMedia = function(type, id) {
-    console.log('the id to remove is: ', id);
-    console.log('the type to remove is: ', type);
     if(type === 'audio') {
         for(var i = 0; i < this.media.audio.length; i++) {
             console.log(this.media.audio[i].ref);

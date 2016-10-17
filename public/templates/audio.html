@@ -6,18 +6,33 @@
         <form name="form" class="fileInput">
             <input type="file" id="file1" name="file" ng-files="getTheFiles($files)"
                    ng-keep="false"
+                   ngf-pattern="'audio/*'"
                    ngf-accept="'audio/*'"
                    >
             <label for="file2">Enter Artist:</label>
             <input type="text" id="file2" name="artist" ng-model="myCont.info">
             <input type="button" class="btn btn-default"
-                   ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser, myCont.info)"
+                   ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser, myCont.info, file, $event)"
                    value="Upload"
-                   ng-disabled="!myCont.info">
-        </form>
+                   >
+            <div class="sk-circle" ng-class="{'vis-hidden': myCont.uploadInProgress == false}">
+                <div class="sk-circle1 sk-child"></div>
+                <div class="sk-circle2 sk-child"></div>
+                <div class="sk-circle3 sk-child"></div>
+                <div class="sk-circle4 sk-child"></div>
+                <div class="sk-circle5 sk-child"></div>
+                <div class="sk-circle6 sk-child"></div>
+                <div class="sk-circle7 sk-child"></div>
+                <div class="sk-circle8 sk-child"></div>
+                <div class="sk-circle9 sk-child"></div>
+                <div class="sk-circle10 sk-child"></div>
+                <div class="sk-circle11 sk-child"></div>
+                <div class="sk-circle12 sk-child"></div>
+            </div>
+            </form>
     </div>
 </div>
-<div class="row">
+<div class="row" style="text-align:center;">
   <div ng-repeat="audio in myCont.media.audio" class="mediaDiv">
       <p>Click to stream</p>
       <div class="streamContainer"
