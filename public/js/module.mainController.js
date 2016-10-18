@@ -122,8 +122,13 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         }
     };
 
-    myCtrl.downloadFile = function(id, fsLocation) {
+    myCtrl.downloadFile = function(url, reqType, fileType, uid, info, formData, location) {
         console.log('download file clicked');
+        var request = MyPiFactory.request(url, reqType, fileType, uid, info, formData, location);
+        $http(request)
+            .then((res) => {
+                console.info('the request to download was a success!!!', res);
+            })
     };
 
     myCtrl.redirect = function(url) {

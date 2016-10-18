@@ -93,19 +93,22 @@ module.exports = {
         }
     },
 
-    downloadFile: function (objId, res) {
-        console.info('called to download file');
+    downloadFile: function (uid, objId, res) {
+        console.info('called to download file: ', objId);
         var id = new mongodb.ObjectID(objId);
+        var res = res;
         var conn = mongoose.createConnection(mediaUri, (error) => {
             assert.ifError(error);
 
             var gfs = Grid(conn.db, mongoose.mongo);
 
-            gfs.findOne({_id: id}, (err, result) => {
+            gfs.findOne({_id: objId}, (err, result) => {
                 if (err) {
-                    res.status(400).send(err);
+                    console.error('error with database');
+                    res.status(400);
                 } else if (!result) {
-                    res.status(404).send('Error finding file')
+                    console.error('error with that file');
+                    res.status(404);
                 } else {
                     res.set('Content-Type', result.contentType);
                     res.set('Content-Disposition', 'attachment; filename="' + result.filename + '"');
@@ -120,6 +123,7 @@ module.exports = {
                 }
             });
         });
+        console.log('reached end of function');
         conn.close();
     },
 

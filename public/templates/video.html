@@ -42,13 +42,13 @@
         <div class="mediaDivInfoContainer">
             <span class="mediaDivInfo"><h5>Title: {{video.mediaInfo}}</h5></span>
             <span class="mediaDivInfo">
-          <button class="btn btn-primary"
-                  ng-click="myCont.downloadFile(video.ref, 'z:\testDownloads')">Download
-          </button>
-                <button class="btn btn-delete"
-                        ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'video', myCont.currentUser,                               video.ref)">Delete
-          </button>
-      </span>
+                  <button class="btn btn-primary"
+                          ng-click="myCont.downloadFile('/dashboard/downloadFile', 'GET', 'video', myCont.currentUser, video.ref, null, 'z:testDownloads')">Download
+                  </button>
+                        <button class="btn btn-delete"
+                                ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'video',                                                   myCont.currentUser, video.ref)">Delete
+                  </button>
+            </span>
         </div>
     </div>
 </div>

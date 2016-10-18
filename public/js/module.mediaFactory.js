@@ -25,16 +25,17 @@ function myPiFactFunc() {
         documentUrl: '../img/document.png'
     };
 
-    factory.buildRequest = function(url, reqType, fileType, uid, info, formData) {
+    factory.buildRequest = function(url, reqType, fileType, uid, info, formData, location) {
         var request = {
             method: reqType,
             url: url,
             params: {
-                type: fileType,
-                id: uid,
-                info: info
+                type: fileType || '',
+                id: uid || '',
+                info: info || '',
+                location: location || ''
             },
-            data: formData,
+            data: formData || '',
             headers: {
                 'Content-Type': undefined
             }
