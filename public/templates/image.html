@@ -37,7 +37,7 @@
                   ng-click="myCont.downloadFile(image.ref, 'z:\testDownloads')">Download
           </button>
           <button class="btn btn-delete"
-                  ng-click="myCont.removeFile(image.ref)">Delete
+                  ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'image', myCont.currentUser, image.ref)                  ">Delete
           </button>
       </span>
         </div>

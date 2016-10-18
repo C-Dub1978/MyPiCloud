@@ -31,11 +31,11 @@
         <div class="mediaDivInfoContainer">
             <span class="mediaDivInfo"><h5>Document: {{doc.title}}</h5></span>
             <span class="mediaDivInfo">
-          <button class="btn btn-primary"
+            <button class="btn btn-primary"
                   ng-click="myCont.downloadFile(doc.ref, 'z:\testDownloads')">Download
-          </button>
+            </button>
                 <button class="btn btn-delete"
-                        ng-click="myCont.removeFile(doc.ref)">Delete
+                        ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'document', myCont.currentUser,                            doc.ref)">Delete
           </button>
       </span>
         </div>
