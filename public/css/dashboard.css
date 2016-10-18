@@ -52,13 +52,13 @@ input.ng-invalid{
     margin: 5px;
 }
 
-.vis-hidden {
-    visibility:hidden;
-}
-
 /**
 Spinner CSS
 */
+.sk-circle-hidden {
+    visibility:hidden
+}
+
 .sk-circle {
     margin: 100px auto;
     width: 40px;

@@ -64,6 +64,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         if(myCtrl.theFile === null || myCtrl.theFile.length === 0) {
             return;
         } else {
+            console.log('should be false.........', myCtrl.uploadInProgress);
             myCtrl.uploadInProgress = true;
             console.log('uploading....', myCtrl.uploadInProgress);
             var request = {
@@ -124,7 +125,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
                 myCtrl.info = '';
                 $scope.finderLoader = false;
                 myCtrl.uploadInProgress = false;
-                console.log('uploading.....', myCtrl.uploadInProgress);
+                console.log('finished uploading.....', myCtrl.uploadInProgress);
             });
         }
     };
