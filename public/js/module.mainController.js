@@ -33,14 +33,10 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     
     myCtrl.media = MyPiFactory.media;
     myCtrl.icons = MyPiFactory.imageUrl;
-
     myCtrl.currentUser = '';
-    
     myCtrl.info = '';
-
-    myCtrl.uploadInProgress = false;
-
     myCtrl.theFile = null;
+    $scope.finderLoader = false;
 
     var formdata = new FormData();
 
@@ -64,9 +60,7 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         if(myCtrl.theFile === null || myCtrl.theFile.length === 0) {
             return;
         } else {
-            console.log('should be false.........', myCtrl.uploadInProgress);
-            myCtrl.uploadInProgress = true;
-            console.log('uploading....', myCtrl.uploadInProgress);
+
             var request = {
                 method: 'POST',
                 url: url,
@@ -119,14 +113,12 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         file: function(request) {
             $scope.finderLoader = true;
             $http(request)
-                .success(function(res) {
-                myCtrl.checkType(res, res.type);
-                $scope.getTheFiles(null);
-                myCtrl.info = '';
-                $scope.finderLoader = false;
-                myCtrl.uploadInProgress = false;
-                console.log('finished uploading.....', myCtrl.uploadInProgress);
-            });
+                .success(function (res) {
+                    myCtrl.checkType(res, res.type);
+                    $scope.getTheFiles(null);
+                    myCtrl.info = '';
+                    $scope.finderLoader = false;
+                });
         }
     };
 
