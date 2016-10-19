@@ -125,10 +125,14 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
     myCtrl.downloadFile = function(url, reqType, fileType, uid, info, formData, location) {
         console.log('download file clicked');
         var request = MyPiFactory.request(url, reqType, fileType, uid, info, formData, location);
+        console.log('request built is: ', request);
         $http(request)
-            .then((res) => {
-                console.info('the request to download was a success!!!', res);
-            })
+            .then(function successCallback(res) {
+                console.log('got successful response from download file');
+            },
+            function errorCallback(res) {
+                console.error('bad response in download file');
+            });
     };
 
     myCtrl.redirect = function(url) {

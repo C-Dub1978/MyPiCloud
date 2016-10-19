@@ -8,7 +8,7 @@
                    ng-keep="false"
                    ngf-pattern="'.pdf, .txt, .doc, .docx, .xls, .xlsx, .csv, .txt, .rtf, .html'">
             <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadDocument', 'document', myCont.currentUser)" value="Upload">
-            <div ng-class="{true: 'sk-circle', false: 'sk-spinner-hidden'}[finderLoader]">
+            <div ng-class="{true: 'sk-circle', false: 'sk-circle-hidden'}[finderLoader]">
                 <div class="sk-circle1 sk-child"></div>
                 <div class="sk-circle2 sk-child"></div>
                 <div class="sk-circle3 sk-child"></div>
@@ -32,7 +32,8 @@
             <span class="mediaDivInfo"><h5>Document: {{doc.title}}</h5></span>
             <span class="mediaDivInfo">
             <button class="btn btn-primary"
-                  ng-click="myCont.downloadFile(doc.ref, 'z:\testDownloads')">Download
+                  ng-click="myCont.downloadFile('/dashboard/downloadFile', 'POST', 'document', myCont.currentUser, doc.ref,
+                      null, 'z:\\testDownloads')">Download
             </button>
                 <button class="btn btn-delete"
                         ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'document', myCont.currentUser,                            doc.ref)">Delete

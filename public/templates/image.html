@@ -10,7 +10,7 @@
                    ngf-accept="'image/*'"
                     >
             <input type="button" class="btn btn-default" ng-click="uploadFiles('/dashboard/uploadImage', 'image', myCont.currentUser)" value="Upload">
-            <div ng-class="{true: 'sk-circle', false: 'sk-spinner-hidden'}[finderLoader]">
+            <div ng-class="{true: 'sk-circle', false: 'sk-circle-hidden'}[finderLoader]">
                 <div class="sk-circle1 sk-child"></div>
                 <div class="sk-circle2 sk-child"></div>
                 <div class="sk-circle3 sk-child"></div>
@@ -34,7 +34,8 @@
             <span class="mediaDivInfo"><h5>Image: {{image.title}}</h5></span>
             <span class="mediaDivInfo">
           <button class="btn btn-primary"
-                  ng-click="myCont.downloadFile(image.ref, 'z:\testDownloads')">Download
+                  ng-click="myCont.downloadFile('/dashboard/downloadFile', 'GET', 'image', myCont.currentUser, image.ref,
+                      'formData', 'z:\\testDownloads')">Download
           </button>
           <button class="btn btn-delete"
                   ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'image', myCont.currentUser, image.ref)                  ">Delete

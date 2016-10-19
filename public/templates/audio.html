@@ -15,7 +15,7 @@
                    ng-click="uploadFiles('/dashboard/uploadAudio', 'audio', myCont.currentUser, myCont.info, file, $event)"
                    value="Upload"
                    >
-                <div ng-class="{true: 'sk-circle', false: 'sk-spinner-hidden'}[finderLoader]">
+                <div ng-class="{true: 'sk-circle', false: 'sk-circle-hidden'}[finderLoader]">
                     <div class="sk-circle1 sk-child"></div>
                     <div class="sk-circle2 sk-child"></div>
                     <div class="sk-circle3 sk-child"></div>
@@ -44,10 +44,12 @@
           <span class="mediaDivInfo"><h5>Track: {{audio.title}}</h5></span>
           <span class="mediaDivInfo">
               <button class="btn btn-primary"
-                      ng-click="myCont.downloadFile(audio.ref, 'z:\testDownloads')">Download
+                      ng-click="myCont.downloadFile('/dashboard/downloadFile', 'GET', 'audio', myCont.currentUser, audio.ref,
+                      'formData', 'z:\\testDownloads')">Download
               </button>
               <button class="btn btn-delete"
-                      ng-click="myCont.removeFile('/dashboard/removeMedia/', 'GET', 'audio', myCont.currentUser,                            audio.ref)">Delete
+                      ng-click="myCont.removeFile('/dashboard/removeMedia/', 'GET', 'audio', myCont.currentUser,
+                       audio.ref)">Delete
               </button>
           </span>
       </div>

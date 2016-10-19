@@ -93,38 +93,44 @@ module.exports = {
         }
     },
 
-    downloadFile: function (uid, objId, res) {
+    downloadFile: function (uid, objId, location, res) {
         console.info('called to download file: ', objId);
+        console.info('response passed is: ', res);
         var id = new mongodb.ObjectID(objId);
-        var res = res;
+
         var conn = mongoose.createConnection(mediaUri, (error) => {
             assert.ifError(error);
 
             var gfs = Grid(conn.db, mongoose.mongo);
 
-            gfs.findOne({_id: objId}, (err, result) => {
+            gfs.findOne({_id: id}, (err, result) => {
                 if (err) {
-                    console.error('error with database');
-                    res.status(400);
+                    return res.status(400).send('error in mongo with findOne');
                 } else if (!result) {
-                    console.error('error with that file');
-                    res.status(404);
+                    return res.status(404).send('file doesnt exist');
                 } else {
-                    res.set('Content-Type', result.contentType);
-                    res.set('Content-Disposition', 'attachment; filename="' + result.filename + '"');
+                    console.info('found file');
                     var readStream = gfs.createReadStream({
                         _id: id,
-                        root: 'resume'
                     });
                     readStream.on('error', (err) => {
-                        res.end();
+                        assert.ifError(err);
                     });
-                    readStream.pipe(res);
+                    console.log('filename is: ' + result.filename);
+                    readStream.pipe(fs.createWriteStream(location))
+                        .on('error', (error) => {
+                            assert.ifError(error);
+                        })
+                        .on('finish', () => {
+                            console.log('finished piping to filesystem');
+                            process.exit(0);
+                        });
                 }
             });
         });
         console.log('reached end of function');
         conn.close();
+        return res.status(200).send('finished downloading file');
     },
 
     deleteFile: function (userId, fileType, objId, res) {

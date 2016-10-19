@@ -15,7 +15,7 @@
                    ng-click="uploadFiles('/dashboard/uploadVideo', 'video', myCont.currentUser, myCont.info)"
                    value="Upload"
                    >
-            <div ng-class="{true: 'sk-circle', false: 'sk-spinner-hidden'}[finderLoader]">
+            <div ng-class="{true: 'sk-circle', false: 'sk-circle-hidden'}[finderLoader]">
                 <div class="sk-circle1 sk-child"></div>
                 <div class="sk-circle2 sk-child"></div>
                 <div class="sk-circle3 sk-child"></div>
@@ -43,7 +43,8 @@
             <span class="mediaDivInfo"><h5>Title: {{video.mediaInfo}}</h5></span>
             <span class="mediaDivInfo">
                   <button class="btn btn-primary"
-                          ng-click="myCont.downloadFile('/dashboard/downloadFile', 'GET', 'video', myCont.currentUser, video.ref, null, 'z:testDownloads')">Download
+                          ng-click="myCont.downloadFile('/dashboard/downloadFile', 'GET', 'video', myCont.currentUser,
+                           video.ref, 'formData', 'z:\\testDownloads')">Download
                   </button>
                         <button class="btn btn-delete"
                                 ng-click="myCont.removeFile('/dashboard/removeMedia', 'GET', 'video',                                                   myCont.currentUser, video.ref)">Delete

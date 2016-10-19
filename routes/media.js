@@ -16,6 +16,8 @@ module.exports = {
 
     writeFile: (req, res) => {
         var file = req.files['0'];
+        console.log('the response is:');
+        console.log(res);
         //Write(file, req.query.id, req.query.type, req.query.info, res);
         CRUD.writeFile(file, req.query.id, req.query.type, req.query.info, res);
     },
@@ -23,15 +25,14 @@ module.exports = {
     downloadFile: (req, res) => {
         console.log('in our media crud file, we are calling to write in the readFile file...');
         //Read(req, res, type);
-        CRUD.downloadFile(req.query.id, req.query.info, res);
+        CRUD.downloadFile(req.query.id, req.query.info, req.query.location, res);
     },
 
     deleteFile: (req, res) => {
         console.log('in our media crud file, requesting delete:');
-        console.log(req.query.id);
-        console.log(req.query.info);
-        console.log(req.query.type);
+        console.log('response: ');
+        console.log(res);
         //Delete(req.query.id, req.query.info, req.query.type, res);
-        CRUD.deleteFile(req.query.id, req.query.type, req.query.info, res)
+        CRUD.deleteFile(req.query.id, req.query.type, req.query.info, res);
     }
 };
