@@ -25,7 +25,7 @@ module.exports = {
     downloadFile: (req, res) => {
         console.log('in our media crud file, we are calling to write in the readFile file...');
         //Read(req, res, type);
-        CRUD.downloadFile(req.query.id, req.query.info, req.query.location, res);
+        CRUD.downloadFile(req.query.id, req.query.info, req.query.location, req.query.name, res);
     },
 
     deleteFile: (req, res) => {

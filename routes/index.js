@@ -28,6 +28,6 @@ module.exports = function(app) {
     app.post('/dashboard/uploadImage', multiparty(), Media.writeFile);
     app.post('/dashboard/uploadDocument', multiparty(), Media.writeFile);
 
-    app.post('/dashboard/downloadFile', Media.downloadFile);
+    app.get('/dashboard/downloadFile', Media.downloadFile);
     app.get('/dashboard/removeMedia', multiparty(), Media.deleteFile);
 };

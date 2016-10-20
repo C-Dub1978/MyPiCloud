@@ -122,9 +122,9 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         }
     };
 
-    myCtrl.downloadFile = function(url, reqType, fileType, uid, info, formData, location) {
+    myCtrl.downloadFile = function(url, reqType, fileType, uid, info, formData, location, name) {
         console.log('download file clicked');
-        var request = MyPiFactory.request(url, reqType, fileType, uid, info, formData, location);
+        var request = MyPiFactory.request(url, reqType, fileType, uid, info, formData, location, name);
         console.log('request built is: ', request);
         $http(request)
             .then(function successCallback(res) {

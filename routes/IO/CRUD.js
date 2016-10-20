@@ -93,10 +93,10 @@ module.exports = {
         }
     },
 
-    downloadFile: function (uid, objId, location, res) {
-        console.info('called to download file: ', objId);
-        console.info('response passed is: ', res);
-        var id = new mongodb.ObjectID(objId);
+    downloadFile: function (uid, objId, location, name, res) {
+        var id = new mongodb.ObjectID(objId),
+            buffer;
+        /**
 
         var conn = mongoose.createConnection(mediaUri, (error) => {
             assert.ifError(error);
@@ -117,7 +117,7 @@ module.exports = {
                         assert.ifError(err);
                     });
                     console.log('filename is: ' + result.filename);
-                    readStream.pipe(fs.createWriteStream(location))
+                    readStream.pipe(fs.createWriteStream('./'))
                         .on('error', (error) => {
                             assert.ifError(error);
                         })
@@ -128,9 +128,46 @@ module.exports = {
                 }
             });
         });
-        console.log('reached end of function');
-        conn.close();
-        return res.status(200).send('finished downloading file');
+       */
+            console.log('called the read file for gridfs');
+            console.log('file is: ', id);
+            var conn = mongoose.createConnection(mediaUri, (error) => {
+                if(error) {
+                    console.error('Error connecting to mongod instance'.red);
+                    process.exit(1);
+                } else {
+                    console.info('Connected successfully to mongod instance in the write file!'.blue);
+                }
+            });
+
+            // Connect gridFs and mongo
+            Grid.mongo = mongoose.mongo;
+
+            conn.once('open', function() {
+                console.log('connection open for reading!!!');
+                var gfs = Grid(conn.db);
+
+                // This will be the write stream to write to our local filesystem, using the read stream
+                //  that well create next
+                var dbWriteStream = fs.createWriteStream('./');
+
+                // Create the read stream, well be using it to read the information from mongo so that we
+                //  can write it to the above write stream. Here we can use a filename or an ObjectID
+                fs.createReadStream(name).pipe(dbWriteStream);
+
+                dbWriteStream.on('close', function() {
+                    readStream = gfs.createReadStream({_id: id});
+
+                    readStream.on('data', function(chunk) {
+                        buffer += chunk;
+                    });
+
+                    readStream.on('end', function() {
+                        console.log('contents of file buffer: ', buffer);
+                        res.sendFile(buffer);
+                    })
+                })
+            });
     },
 
     deleteFile: function (userId, fileType, objId, res) {

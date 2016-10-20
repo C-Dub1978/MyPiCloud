@@ -45,7 +45,7 @@
           <span class="mediaDivInfo">
               <button class="btn btn-primary"
                       ng-click="myCont.downloadFile('/dashboard/downloadFile', 'GET', 'audio', myCont.currentUser, audio.ref,
-                      'formData', 'z:\\testDownloads')">Download
+                      'formData', 'z:\\testDownloads', audio.title)">Download
               </button>
               <button class="btn btn-delete"
                       ng-click="myCont.removeFile('/dashboard/removeMedia/', 'GET', 'audio', myCont.currentUser,
