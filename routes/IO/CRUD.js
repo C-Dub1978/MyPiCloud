@@ -94,80 +94,42 @@ module.exports = {
     },
 
     downloadFile: function (uid, objId, location, name, res) {
-        var id = new mongodb.ObjectID(objId),
-            buffer;
-        /**
-
+        var id = new mongodb.ObjectID(objId);
+        
+        console.log('called the read file for gridfs');
+        console.log('file is: ', id);
         var conn = mongoose.createConnection(mediaUri, (error) => {
-            assert.ifError(error);
-
-            var gfs = Grid(conn.db, mongoose.mongo);
-
-            gfs.findOne({_id: id}, (err, result) => {
-                if (err) {
-                    return res.status(400).send('error in mongo with findOne');
-                } else if (!result) {
-                    return res.status(404).send('file doesnt exist');
-                } else {
-                    console.info('found file');
-                    var readStream = gfs.createReadStream({
-                        _id: id,
-                    });
-                    readStream.on('error', (err) => {
-                        assert.ifError(err);
-                    });
-                    console.log('filename is: ' + result.filename);
-                    readStream.pipe(fs.createWriteStream('./'))
-                        .on('error', (error) => {
-                            assert.ifError(error);
-                        })
-                        .on('finish', () => {
-                            console.log('finished piping to filesystem');
-                            process.exit(0);
-                        });
-                }
-            });
+            if(error) {
+                console.error('Error connecting to mongod instance'.red);
+                process.exit(1);
+            } else {
+                console.info('Connected successfully to mongod instance in the write file!'.blue);
+            }
         });
-       */
-            console.log('called the read file for gridfs');
-            console.log('file is: ', id);
-            var conn = mongoose.createConnection(mediaUri, (error) => {
-                if(error) {
-                    console.error('Error connecting to mongod instance'.red);
-                    process.exit(1);
-                } else {
-                    console.info('Connected successfully to mongod instance in the write file!'.blue);
-                }
+
+        var gfs = Grid(conn.db, mongoose.mongo);
+        gfs.findOne({ _id: id}, function (err, file) {
+            if (err) {
+                return res.status(400).send(err);
+            }
+            else if (!file) {
+                return res.status(404).send('Error on the database looking for the file.');
+            }
+            res.set('Content-Type', file.contentType);
+            res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+
+            var readstream = gfs.createReadStream({
+                _id: id
             });
 
-            // Connect gridFs and mongo
-            Grid.mongo = mongoose.mongo;
+            var writeStream = gfs.createWriteStream('./');
 
-            conn.once('open', function() {
-                console.log('connection open for reading!!!');
-                var gfs = Grid(conn.db);
-
-                // This will be the write stream to write to our local filesystem, using the read stream
-                //  that well create next
-                var dbWriteStream = fs.createWriteStream('./');
-
-                // Create the read stream, well be using it to read the information from mongo so that we
-                //  can write it to the above write stream. Here we can use a filename or an ObjectID
-                fs.createReadStream(name).pipe(dbWriteStream);
-
-                dbWriteStream.on('close', function() {
-                    readStream = gfs.createReadStream({_id: id});
-
-                    readStream.on('data', function(chunk) {
-                        buffer += chunk;
-                    });
-
-                    readStream.on('end', function() {
-                        console.log('contents of file buffer: ', buffer);
-                        res.sendFile(buffer);
-                    })
-                })
+            readstream.on("error", function(err) {
+                res.end();
             });
+            readstream.pipe(writeStream);
+            res.status(200).send('Downloaded file');
+        });
     },
 
     deleteFile: function (userId, fileType, objId, res) {

@@ -128,10 +128,10 @@ function myPiContFunc($http, $scope, $timeout, Upload, $location, MyPiFactory) {
         console.log('request built is: ', request);
         $http(request)
             .then(function successCallback(res) {
-                console.log('got successful response from download file');
+                console.log('got successful response from download file: ', typeof(res));
             },
             function errorCallback(res) {
-                console.error('bad response in download file');
+                console.error('bad response in download file: ', res);
             });
     };
 
